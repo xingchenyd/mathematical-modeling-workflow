@@ -1,136 +1,99 @@
-# 数学建模工作流
+# 数学建模工作流 V4.3.3
 
-> Evidence-Grounded Modular AI Workflow for Mathematical Modeling Competitions
+> Evidence-First, Data-Aware, Iterative & Competition-Executable AI Workflow
 
-这是一个面向数学建模竞赛的模块化 AI Skill / Workflow，目标不是“一键生成论文”，而是让 AI 在有限竞赛时间内按证据链完成：**读题 → 建模 → 求解 → 优化 → 验证 → 实验 → 写作 → 引用 → 提交**。
+V4.3 保留 V4.2 的核心原则：**先证明方向正确，再提高模型和算法质量**；同时把赛前培训中真正具有通用价值的部分融入既有模块：重复审题、概念模型草图、受控简化、局部案例复核、边做边写、信息化章节标题、证据密度、灰度可读性与提交冻结。
 
-## 快速开始
+本版本明确不包含：
+- 自动选题；
+- 团队能力评估；
+- 三人开发环境统一；
+- “NP-hard 就必须用启发式”的错误硬规则。
 
-1. AI 先读 [`SKILL.md`](SKILL.md)。
-2. 再读 [`MASTER_ROUTER.md`](MASTER_ROUTER.md)。
-3. 只加载当前阶段需要的 M0–M6 模块。
-4. 新比赛从 M0 + M1 开始。
-5. 求解阶段执行 `M3 ↔ M4` 反馈循环。
-6. 模型冻结后进入 M5，终稿进入 M6。
-
-## 核心特色
-
-- 模块化路由，避免超长 Prompt 一次加载；
-- Problem / Acceptance Contract；
-- B0/B1/B2 三层 Baseline；
-- Bound 与 Gap 边界；
-- Search Space Engineering；
-- Hybrid Solver；
-- Solution-Driven Regeneration；
-- 独立 Validator；
-- 消融、收敛、多 Seed、敏感性；
-- 逐小节、逐段、逐句 Paper Engineering；
-- Figure Contract；
-- **参考文献真实性 Gate + Reference Ledger + 正文 `[1]` 引用覆盖审计**；
-- Single Source of Truth；
-- Claim Strength C0–C5；
-- 最终 Submission Gate。
-
-## 仓库结构
-
-```text
-.
-├── SKILL.md
-├── AGENTS.md
-├── START_HERE.md
-├── MASTER_ROUTER.md
-├── M0_PROJECT_CONTROL.md
-├── M1_PROBLEM_DATA_BENCHMARK.md
-├── M2_MODEL_DESIGN.md
-├── M3_SOLVING_OPTIMIZATION.md
-├── M4_VALIDATION_EXPERIMENTS.md
-├── M5_PAPER_ENGINEERING.md
-├── M6_VISUAL_REFERENCES_SUBMISSION.md
-├── templates/
-├── docs/
-├── CONTRIBUTING.md
-├── CHANGELOG.md
-├── CITATION.md
-└── LICENSE
-```
-
-## 参考文献底线
-
-任何文献进入最终论文前必须核验作者、准确题名、期刊/会议、年份、卷期页码/文章号和 DOI（如有）。查不到就不猜。最终要求：
-
-- Bibliography 中每篇文献至少被正文引用一次；
-- 正文每个 `[n]` 都能映射到第 n 条文献；
-- 无重复文献；
-- 无未核验文献；
-- 无编造 DOI。
-
-## License
-
-MIT License.
-
----
-
-## V4.0 详细说明
-
-# 数学建模竞赛 AI 工作流 V4.0
-## Modular Evidence-Grounded Competition System
-
-V4.0 不再把所有规则串成一条 170+ 步的长流程，而采用：
+## 主流程
 
 \[
-\boxed{
-MASTER\_ROUTER
-+
-M0\sim M6
-+
-Templates
-}
+M0 \rightarrow M1 \rightarrow M2 \rightarrow (M3\leftrightarrow M4) \rightarrow M5 \rightarrow M6 \rightarrow M7
 \]
 
-主控只负责“现在进入哪个模块”，各模块只加载当前阶段需要的规则。
+其中：
+- M1→M2 仍由 Modeling Eligibility Gate 控制；
+- M3/M4 发现根因错误时允许回退到 M1/M2；
+- 论文证据不是到 M5 才开始积累，而是从 M1 起持续沉淀；
+- M5 负责把已经积累的 Evidence Draft 重构成正式论文；
+- M6 在提交前执行官方规则、引用、视觉、复现与冻结审计。
 
 ## 模块
 
-| 模块 | 名称 | 核心任务 |
-|---|---|---|
-| M0 | 项目控制与证据治理 | 材料、规则、Contract、Issue、Decision、SSOT |
-| M1 | 题意、数据与 Benchmark | 三遍读题、规则审计、EDA、高分论文差距分析 |
-| M2 | 建模设计与搜索空间 | 候选模型、B0/B1/B2、Bound、Search Space、正式模型 |
-| M3 | 求解与优化 | Hybrid Solver、诊断、解驱动再生成、重优化 |
-| M4 | 验证与实验 | 独立 Validator、Gap、消融、收敛、稳定性、敏感性 |
-| M5 | 论文工程 | 从标题、摘要到结论的逐节、逐段、逐句写作协议 |
-| M6 | 视觉、参考文献、排版与提交 | Figure/Table、引用真实性、[1] 编号、AI合规、最终提交 |
+| 模块 | 主要任务 |
+|---|---|
+| M0 | 材料、规则、版本、时间预算、证据治理、提交策略 |
+| M1 | 题意与数据取证、坑点、重复审题、概念草图、规律与建模资格 |
+| M2 | 数学抽象、候选模型、Baseline、Bound、受控简化、搜索空间与Solver选择 |
+| M3 | 求解、诊断、定向优化、时间盒与止损 |
+| M4 | Validator、局部案例复核、Gap、消融、收敛、稳定、敏感与不确定性 |
+| M5 | Living Paper Finalization：逐节/逐段/逐句论文工程 |
+| M6 | 图表、真实文献、2026规则、AI声明、灰度审计、复现与提交冻结 |
+| M7 | 答辩：难点—选择—证据—结论—边界 |
 
-## 执行原则
+## V4.3 新增强调
 
-1. 比赛开始只读 `MASTER_ROUTER.md + M0 + M1`。
-2. 题意冻结后加载 M2。
-3. 模型成形后进入 `M3 <-> M4` 循环。
-4. 模型未冻结时可以同步积累 M5 的证据，但不得正式锁定摘要。
-5. 模型冻结后完整加载 M5。
-6. 成稿后加载 M6 做视觉、引用、排版和提交审计。
-7. 官方竞赛规则优先级永远高于本仓库默认规范。
-8. 任何结果、文献、DOI、Gap、算法性能都不得虚构。
+1. **Scheduled Re-read**：建模前、第一版完整结果后、模型冻结前三次重新对照原题。
+2. **Conceptual System Sketch**：公式前先把现实对象、状态、资源和关系画/写清楚。
+3. **Mechanism Classification**：确定/随机、静态/动态、离散/连续、同构/异构、2D/3D 等属性先定性，再进入数学表达。
+4. **Controlled Relaxation**：简化只允许作为诊断、Baseline、Bound 或经证明不改题意的最终简化，绝不能靠删硬约束“做出结果”。
+5. **Local Mechanism Replay**：复杂模型必须尽量用一个局部小例子验证并解释。
+6. **Living Paper**：M1–M4 每阶段自动沉淀论文素材，M5 不从零开始写。
+7. **Information-rich Titles**：章节标题尽量传递模型/任务信息，而不是“问题一解答”。
+8. **Evidence Density > Page Count**：页数上限不是填满目标。
+9. **Color + Grayscale Audit**：彩图必须在灰度打印时仍能区分。
+10. **Submission Freeze**：临近截止按比例冻结模型，最后阶段只处理提交级风险。
 
-## 最终目标
+## 2026 CUMCM 专用规则
 
-不是“写出最多模型”，而是：
+当比赛为 2026 CUMCM 时，加载 `docs/CUMCM_2026_RULE_PROFILE.md`。官方规则优先于本仓库所有默认值。
 
-\[
-\boxed{
-正确的问题
-+
-合理的模型
-+
-有竞争力的结果
-+
-明确的最优性边界
-+
-可复核的证据
-+
-高密度论文表达
-+
-真实可核验引用
-}
-\]
+## 使用
 
+先读 `SKILL.md` 和 `MASTER_ROUTER.md`。新题只加载 M0 + M1；M1 未 PASS 不进入 M2。
+
+
+## 2026 官方规则校准
+
+2026 CUMCM 的提交、匿名、AI、MD5 和电子上传要求见 `docs/CUMCM_2026_RULE_PROFILE.md`，该文件优先覆盖通用默认值。
+
+
+## V4.3.3 官方问答校准
+
+新增对老师/赛区注意事项的“规则分层”：
+- 全国硬规则；
+- 赛区硬规则；
+- 组委会FAQ；
+- 经验建议；
+- 团队内部截止。
+
+避免把经验建议误写成全国规则。
+
+关键纠正：
+- 摘要页必须从页码1开始；
+- 全国附录不限页；
+- 附录必须放全部完整可运行源程序；
+- 非图片PDF是官方“建议”而非明确淘汰条款；
+- AI工具无需再作为参考文献条目；
+- 不要求自行做第三方AIGC检测。
+
+
+## 湖南赛区定制默认值
+
+本仓库现在默认按当前已确认的湖南赛区执行口径运行：
+
+- 摘要页不显示页码；
+- 正文第一页从页码1开始；
+- 正文目标29–30页，硬上限30页；
+- 附录控制20页以内；
+- 主论文PDF按摘要1页+正文30页+附录20页控制在约51页；
+- 附录放全部完整、可运行代码；
+- 最终PDF必须为原生可搜索文本PDF；
+- 默认使用 LaTeX 生成论文。
+
+详见 `docs/HUNAN_2026_COMPETITION_PROFILE.md`。

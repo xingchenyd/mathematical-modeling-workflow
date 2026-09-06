@@ -1,31 +1,57 @@
-# AGENTS.md
+# AGENTS.md — V4.3
 
-本仓库是“数学建模工作流”V4.0 的 Agent 执行规范。
+## 总控原则
 
-## 最高优先级
+本仓库不是“算法推荐器”，而是一个数学建模竞赛项目控制系统。
 
-1. 官方赛题、数据和当届规则优先。
-2. `MASTER_ROUTER.md` 决定当前加载哪个模块。
-3. 不要一次加载 M0–M6 后自由发挥。
-4. 所有核心数字来自 SSOT。
-5. 所有强结论来自 Claim Ledger。
-6. 参考文献必须真实核验并在正文引用。
-7. 最终方案必须由独立 Validator 复核。
+### 第一原则
+在模型选择之前，先证明你已经理解：
+- 题目；
+- 数据；
+- 规则；
+- 可用信息；
+- 风险；
+- 错误解释的后果。
 
-## 路由
+### 第二原则
+任何后续失败都必须做根因分类：
 
-- 新题：`M0_PROJECT_CONTROL.md` + `M1_PROBLEM_DATA_BENCHMARK.md`
-- 建模：`M2_MODEL_DESIGN.md`
-- 求解/优化：`M3_SOLVING_OPTIMIZATION.md`
-- 验证/实验：`M4_VALIDATION_EXPERIMENTS.md`
-- 写论文：`M5_PAPER_ENGINEERING.md`
-- 图表/引用/排版/提交：`M6_VISUAL_REFERENCES_SUBMISSION.md`
+| 根因 | 回退 |
+|---|---|
+| 题意/口径/字段语义 | M1 |
+| 数据质量/信息泄漏/实验单位 | M1 |
+| 数学抽象/变量/约束/目标 | M2 |
+| 搜索空间/算法/实现 | M3 |
+| 证据不足/实验不稳 | M4 |
+| 写作表达 | M5 |
+| 图表/引用/格式 | M6 |
 
-## 重要禁止项
+不允许用“继续调参数”处理所有问题。
 
-- 不虚构文献和 DOI。
-- 不虚构实验。
-- 不把候选池最优称为全局最优。
-- 不用装饰图填充正文。
-- 不把算法名堆叠当作创新。
-- 不在模型尚未验证时锁定摘要和结论。
+## 文件路由
+
+- 新题：M0 + M1
+- 建模：M2
+- 求解/优化：M3
+- 验证/实验：M4
+- 论文：M5
+- 图表/引用/提交：M6
+- 答辩：M7
+- 预测/动态/反事实：按 MASTER_ROUTER 加载 branch
+
+## 证据对象
+
+必须维护：
+- Problem Contract
+- Acceptance Contract
+- Pitfall Ledger
+- Data Dictionary
+- Data Relationship Map
+- Data Findings Ledger
+- Modeling Eligibility Report
+- Baseline/Bound/Search Space Ledgers
+- Optimization History
+- Validation Matrix
+- Claim Ledger
+- Reference Ledger
+- SSOT
