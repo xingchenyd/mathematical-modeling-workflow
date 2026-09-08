@@ -1,44 +1,48 @@
-# START_HERE.md
+# START_HERE — V4.5
 
-## 最简单的使用方式
+把赛题、全部附件、官方规则和已有材料交给 AI，然后使用：
 
-把赛题、附件和规则交给 AI，然后说：
+> 读取 `SKILL.md` 与 `MASTER_ROUTER.md`，执行数学建模工作流 V4.5。先完成 M0 与 M1。不要直接推荐算法。请先把题目规则、数据文件、字段语义、跨表关系、数据质量、P0/P1 坑点、错误理解的后果、关键规律和可利用结构弄清楚，并输出 Modeling Eligibility Report。只有 Gate=PASS 后再进入 M2。
 
-> 请读取本仓库的 `SKILL.md` 与 `MASTER_ROUTER.md`，按“数学建模工作流 V4.0”执行当前任务。不要跳过 Gate；如果没有必须由我确认的真实歧义，直接执行当前最高 ROI 的下一步。
+## 已有论文但结果不好
 
-## 新比赛
+不要先润色。
 
-从：
+先检查：
+`M1 → M2 → M3 ↔ M4`
 
-`M0 → M1`
+尤其确认：
+- 原题有没有误读；
+- 数据字段有没有理解错；
+- 规则实现是否一致；
+- 数据规律是否支持当前模型；
+- 当前差距来自模型还是算法。
 
-开始。
+## 模型已冻结
 
-## 已经有论文但结果不好
-
-优先：
-
-`M1 Benchmark Delta → M2 → M3 ↔ M4`
-
-不要先润色论文。
-
-## 模型已冻结，要写论文
-
-加载：
-
+进入：
 `M5 → M6`
 
-## 只想审查最终论文
+## 答辩
 
-加载：
+进入 M7。
 
-`M4 + M5 + M6`
 
-重点检查：
+## 如果题目属于运筹优化
 
-- 结果是否真的可复算；
-- 是否存在未证实“最优”；
-- 图是否承担证据；
-- 文献是否真实；
-- 每条文献是否正文有 `[n]` 引用；
-- 数字是否与 SSOT 一致。
+额外读取：
+`branches/B5_OPERATIONS_RESEARCH_OPTIMIZATION.md`
+
+并在正式写论文前检查：
+`templates/SOLUTION_QUALITY_CONTRACT_TEMPLATE.md`
+
+
+## V4.5 写作/视觉启动
+
+从 M1 起就维护：
+- `templates/PAPER_NARRATIVE_SPINE_TEMPLATE.md`
+- `templates/EVIDENCE_STORYBOARD_TEMPLATE.md`
+
+开始正式绘图前读取：
+- `docs/VISUAL_GRAMMAR_V4.5.md`
+- `scripts/paper_plot_style.py`

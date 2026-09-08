@@ -1,14 +1,32 @@
 # Changelog
 
-## V4.0 — 2026-08-28
+## V4.5 — 2026-09-07
 
-- 将 V3.x 长线性流程重构为 `MASTER_ROUTER + M0–M6` 模块。
-- 新增 Delta Matrix，对比自身方案与高分论文的任务差距。
-- 强化 B0/B1/B2、Bound、Search Space Engineering。
-- 强化 Solution-Driven Regeneration、Pair/Triple Reconstruction。
-- 将独立 Validator、Gap Attribution、Ablation、Convergence、Stability、Sensitivity 归入独立证据模块。
-- 将论文写作提升为逐小节、逐段、逐句的 Paper Engineering 模块。
-- 新增 Reference Integrity Gate。
-- 新增 Reference Ledger、正文 `[n]` Citation Coverage Gate。
-- 明确禁止虚构文献、DOI、运行结果和全局最优声明。
-- 新增 GitHub Skill 入口：`SKILL.md`、`AGENTS.md`、`START_HERE.md`。
+### Narrative Grammar
+- Narrative Seeds / Narrative Spine；
+- Question Progression Map；
+- Paragraph Logic：Claim→Evidence→Reasoning→Implication；
+- Cross-Question Synthesis；
+- Evidence-Calibrated Language；
+- Precision Contract；
+- Section Transition rules。
+
+### Visual Grammar
+- Visualization Eligibility Gate；
+- Figure Decision Tree；
+- Chart Rejection Rules；
+- Shared Semantic Palette；
+- grouped bar宽度规则；
+- multi-panel composition；
+- legend/annotation规范；
+- sequential vs diverging heatmap规则；
+- final-size字体/线宽；
+- PDF/SVG优先；
+- Visual Audit；
+- `scripts/paper_plot_style.py`。
+
+### Integration
+- M1/M4/M5/M6整体融合，不新增M8；
+- B5运筹分支自动继承共享叙事和视觉规范；
+- 保留V4.4的Solution Quality/Bound/Gap/Solver Certificate；
+- 保留V4.3.3湖南赛区定制规则。

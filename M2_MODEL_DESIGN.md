@@ -1,196 +1,384 @@
-# M2 建模设计与搜索空间工程
+# M2 数学抽象、模型设计与方法选择
 
-目标：回答“应该建什么模型、怎样让模型既贴题又可求”。
-
----
-
-# 2.1 Model Candidate Competition
-
-至少提出 2–4 个候选模型。
-
-评分维度：
-
-\[
-Fidelity + Solvability + Explainability + EvidencePotential
-\]
-
-表：
-
-| 模型 | 贴题性 | 可求性 | 可解释性 | 可验证性 | 风险 |
-|---|---:|---:|---:|---:|---|
-
-必须说明：
-> 为什么最终不选另一个候选。
+M2 的入口不是“这个题看起来适合什么算法”，而是 M1 的 Modeling Eligibility Report。
 
 ---
 
-# 2.2 三层 Baseline
+# 2.1 Evidence-to-Model Mapping
 
-## B0 Naive
-最简单方法，验证题意和指标。
+先建立：
 
-## B1 Verified Feasible
-必须通过所有硬约束，是正式上界/性能基线。
+| Evidence | Mathematical consequence |
+|---|---|
+| Pitfall P01 | 必须逐阶段状态约束 |
+| Finding F03 | 可以按组聚合 |
+| Finding F05 | 时间窗窄，需显式时序 |
+| Data limitation D02 | 不支持连续外推 |
 
-## B2 Strong Baseline
-采用合理成熟方法，避免 Final 只打败故意很差的基线。
-
-最终高级方法必须至少对 B2 解释增益。
+任何核心模型结构都应能追溯到：
+- 题面；
+- 数据；
+- 假设；
+- Benchmark；
+中的至少一个来源。
 
 ---
 
-# 2.3 Bound Designer
+# 2.2 先选数学问题类型，再选算法
 
-优化题在正式高级求解前尝试：
-- 容量下界；
-- 工作量下界；
-- 距离下界；
-- 最快速度下界；
-- LP 松弛；
-- Lagrangian；
+顺序：
+
+1. 现实问题；
+2. 数学抽象；
+3. 候选模型；
+4. 求解架构；
+5. 具体算法/软件。
+
+例如：
+
+> 动态容量取送问题  
+> → MILP/候选列模型  
+> → 列生成 + 整数主问题  
+> → 具体求解器。
+
+禁止：
+> “我会 XGBoost/遗传算法，所以用它。”
+
+---
+
+# 2.2A Complexity Classification ≠ Solver Conclusion
+
+识别 NP-hard / combinatorial explosion 有价值，但不能直接推出“必须使用启发式”。
+
+需要继续判断：
+- 实际实例规模；
+- 结构是否可分解；
+- LP/MILP/CP 松弛是否强；
+- 是否存在小的局部精确子问题；
+- 求解器是否能在时间预算内给出 Bound/Gap。
+
+因此：
+- NP-hard + 实例可控 → 仍可 Exact-first；
+- 完整规模过大 → 候选生成、分解、启发式、列生成等；
+- 启发式的价值是获得好解或生成结构，不等同于最优证书。
+
+# 2.3 Model Candidate Competition
+
+至少 2–4 个合理候选。
+
+比较：
+- Fidelity；
+- Solvability；
+- Explainability；
+- Data compatibility；
+- Validation potential；
+- Evidence support。
+
+每个候选必须写：
+> 哪些 Pitfall/Finding 支持它？它解决不了什么？
+
+---
+
+# 2.4 Why-not-Alternative
+
+对最终主模型至少回答：
+> 为什么不用另一个常见模型？
+
+原因必须基于：
+- 数据规模；
+- 数据结构；
+- 约束；
+- 可解释性；
+- 最优性需求；
+- 验证需求。
+
+---
+
+# 2.5 B0 / B1 / B2
+
+## B0
+验证题意、指标、数据处理。
+
+## B1
+Verified Feasible Baseline：
+- 硬约束通过；
+- 输出完整；
+- 可独立复算。
+
+## B2
+Strong Baseline：
+用成熟合理方法，防止 Final 只打败弱基线。
+
+---
+
+# 2.6 Bound Before Complexity
+
+优化题在高级算法前尽量找：
+- 容量界；
+- 工作量界；
+- 距离/时间界；
+- LP relaxation；
 - 对偶界；
-- 忽略部分约束的松弛模型。
+- 松弛模型。
 
-每个 Bound：
-
-```text
-Name:
-Derivation:
-Relaxed Constraints:
-Value:
-Valid Scope:
-What It Proves:
-What It Does Not Prove:
-```
+Bound Card 必须写：
+> 放松了什么、对哪个空间有效、能证明什么、不能证明什么。
 
 ---
 
-# 2.4 Gap 类型
-
-严格区分：
-
-1. Full-space Lower Bound Gap
-2. Candidate-pool Gap
-3. Solver MIP Gap
-4. Empirical Benchmark Difference
-
-正文不能混用。
-
----
-
-# 2.5 Search Space Engineering
+# 2.7 Search Space Engineering 必须来自结构证据
 
 先问：
-> 原始完整空间为什么不可求？
+> 完整空间为何爆炸？数据/规则有什么结构可压缩？
 
-再设计：
+方法：
+- 聚合；
+- 候选列；
+- 分解；
+- 无损预筛；
+- 局部精确；
+- 滚动窗口；
+- 代理筛选。
 
-## 聚合
-必须证明等价或说明损失。
-
-## 候选列
-把局部复杂结构封装。
-
-## 分解
-Master + Subproblem。
-
-## 局部精确
-启发式定位，MILP/CP 精修。
-
-## 滚动窗口
-动态问题分时段。
-
-## 代理筛选
-廉价评分后只精算 Top-K。
+每一种压缩都必须说明：
+> 会不会丢掉潜在最优结构？
 
 ---
 
-# 2.6 Search Space Ledger
+# 2.7A Controlled Relaxation / Simplification
 
+遇到模型过大或迟迟不可行时，可以简化，但必须标注简化的身份：
+
+### Diagnostic Relaxation
+只用于定位困难，例如临时放松某类约束，看不可行来自哪里。
+
+### Baseline / Bound Relaxation
+用于构造基线、下界/上界或理解问题难度。
+
+### Final-Eligible Simplification
+只有证明不会改变题目核心要求、或误差边界可接受并被题目允许时，才能进入最终模型。
+
+禁止：
+> 为了“算出结果”把 K覆盖改成1覆盖、删除时间窗、忽略必须资源，然后把简化问题答案当原题最终答案。
+
+每次简化记录：
 ```text
-Original Space:
-Main explosion source:
-Compression:
-Candidate Types:
-What may be missing:
-How to expand:
-Saturation criterion:
+Original requirement:
+Relaxation:
+Purpose:
+Effect on feasible region:
+Effect on objective/bound:
+Can enter final answer?: YES/NO
 ```
 
+# 2.8 Analytical Reduction
+
+先检查能否：
+- 闭式消元；
+- 单调性；
+- 阈值；
+- DP；
+- 网络流；
+- 无损剪枝；
+- 精确线性化。
+
+能解析解决的不要全部塞进通用启发式。
+
 ---
 
-# 2.7 正式模型
+# 2.9 Formal Model
 
 必须包含：
-
-1. 集合；
-2. 参数；
-3. 核心决策变量；
-4. 状态变量；
-5. 辅助变量；
-6. 主目标；
-7. 次目标；
-8. 约束；
-9. 边界/初始；
-10. 定义域；
-11. 单位；
-12. 模型规模。
+- 集合；
+- 参数；
+- 变量；
+- 状态；
+- 目标；
+- 约束；
+- 边界/初值；
+- 定义域；
+- 单位；
+- 规模。
 
 ---
 
-# 2.8 多目标
+# 2.10 Constraint Traceability
 
-题目出现：
-- 首先；
-- 其次；
-- 在不增加……前提下；
+每条关键规则：
 
-优先用：
-
-### Lexicographic
-\[
-f_1 \succ f_2 \succ f_3
-\]
-
-### ε-constraint
-锁定一级目标后再优化二级。
-
-权重法只有权重有依据时才用。
-
----
-
-# 2.9 约束四联表
-
-每条关键约束必须有：
-
-| 题面规则 | 数学式 | 代码位置 | Validator |
+| 题面/数据依据 | 数学表达 | 代码实现 | Validator |
 |---|---|---|---|
 
-任何一列缺失都说明模型链未闭合。
+防止论文、代码、验证器三套口径。
 
 ---
 
-# 2.10 模型规模审计
+# 2.11 多目标
 
-统计：
-- binary；
-- integer；
-- continuous；
-- constraints；
-- candidate count；
-- estimated complexity。
+若题目明确优先级：
+- Lexicographic；
+- ε-constraint；
+优先于随意加权。
 
-然后决定：
-> 直接精确求 / 分解 / 候选化 / 启发式。
+权重只有明确依据时使用。
 
 ---
 
-# 2.11 M2 Gate
+# 2.11A Method Maturity & Reproducibility Check
+
+模型/算法候选除了性能，还检查：
+- 是否有可靠文献；
+- 是否有可理解的算法机制；
+- 是否有成熟实现/官方文档；
+- 是否能在竞赛时间内复现；
+- 新方法相对传统方法是否真的解决当前瓶颈。
+
+“发表得新”或“名字前沿”都不是单独采用理由。
+
+# 2.12 Solver Selection
+
+### Exact-first
+如果模型可稳定表达为 LP/MILP/CP-SAT/Convex，规模可控：
+> 优先精确方法，以获得 Bound、Gap、不可行诊断和稳定结果。
+
+### Heuristic / Metaheuristic
+用于：
+- 大规模；
+- 候选生成；
+- warm start；
+- 邻域搜索；
+- 分解补充。
+
+不是“越复杂越高级”。
+
+---
+
+# 2.13 Surrogate Admission
+
+预测模型要进入优化前，必须通过样本外准入。
+
+若未达到门槛：
+- 不做无证据连续优化；
+- 退回离散已测策略/Pareto；
+- 或只生成实验候选。
+
+---
+
+# 2.14 Trust Region / Support
+
+连续候选必须在数据支持域。
+
+可用：
+- convex hull；
+- nearest neighbor；
+- density；
+- Mahalanobis；
+- physical neighborhood。
+
+---
+
+# 2.15 Decision Resolution
+
+若候选改善小于模型误差/不确定性：
+> 不得声称新方案更优。
+
+---
+
+# 2.16 M2 Gate
 
 进入 M3 前：
-- B1 PASS；
-- B2 建立或有合理替代；
+- 主模型能追溯到 M1 证据；
+- B1 已建立；
+- B2 已建立或说明为何不可；
 - Bound 已尝试；
 - Search Space 策略明确；
-- Formal Model 完整；
-- 规模与 Solver 策略匹配。
+- 模型与 Solver 匹配；
+- 没有明显用算法替代问题理解的情况。
+
+
+---
+
+# 2.17 Attainability / Bound Gate【V4.4】
+
+优化题不得只问“找到多少”，还要问“理论上最好是多少”。
+
+至少尝试其中一种：
+- capacity/workload lower bound；
+- shortest-path lower bound；
+- LP relaxation；
+- continuous relaxation；
+- assignment relaxation；
+- Lagrangian bound；
+- dual bound；
+- relaxed time-window model；
+- ideal-world service ceiling。
+
+如果确实无法构造严格 Bound，必须解释原因并给出最接近的 Reference Performance，不得静默跳过。
+
+# 2.18 Formulation Strength Audit【V4.4】
+
+MILP/MIQP/CP建模后检查：
+
+## Big-M
+- 能不用则不用；
+- 必须用时从数据推导尽可能紧的 M；
+- 禁止随手 `M=10^9`。
+
+## Symmetry
+识别同质设备/同质车辆引起的对称解，必要时加：
+- ordering；
+- symmetry-breaking constraints。
+
+## Valid inequalities
+若 LP 松弛太弱，考虑：
+- capacity cuts；
+- subtour cuts；
+- cover cuts；
+- precedence cuts；
+- valid lower-bound cuts。
+
+## Scaling
+目标与约束系数量级差异过大时做单位/尺度调整。
+
+# 2.19 Exact-first, Structure-first【V4.4】
+
+方法选择优先级：
+
+1. 是否存在网络流/匹配/最短路等多项式结构？
+2. 是否能用 LP/MILP/CP-SAT 直接表达且规模可控？
+3. 是否能做 DP/状态压缩？
+4. 是否需要 decomposition？
+5. 最后才判断是否需要大规模 heuristic/metaheuristic。
+
+NP-hard ≠ 必须启发式。
+
+# 2.20 Decomposition Decision Tree【V4.4】
+
+如果一体化模型爆炸，判断耦合来自哪里：
+
+- 路线内部复杂、路线间组合简单 → set partitioning / column generation；
+- 高层选址/投资，低层调度 → Benders / nested optimization；
+- 时间跨度太长 → rolling horizon；
+- 场景过多 → scenario decomposition；
+- 局部子问题可精确 → heuristic search + exact repair；
+- 资源定价明显 → Lagrangian relaxation。
+
+# 2.21 Multiobjective / Pareto Protocol【V4.4】
+
+若题目有多个目标：
+
+### 有明确优先级
+使用 lexicographic / ε-constraint。
+
+### 无明确优先级
+优先构造 Pareto frontier。
+
+推荐解必须有选择规则，例如：
+- knee point；
+- normalized distance to ideal；
+- policy threshold；
+- user-stated preference；
+- lexicographic tie-break。
+
+禁止：
+> “综合考虑后选择方案B”而不给定量规则。
