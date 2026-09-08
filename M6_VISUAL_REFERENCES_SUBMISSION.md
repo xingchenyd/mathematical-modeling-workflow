@@ -411,7 +411,7 @@ LaTeX 中建议：
 
 统一绘图工具：`scripts/paper_plot_style.py`。
 
----
+规则以当届官方文件为准。
 
 # 6.17 Reference Integrity Gate
 
@@ -543,3 +543,260 @@ MD5 INTEGRITY: PASS/FAIL
 FORMAT: PASS/FAIL
 SUBMISSION: PASS/FAIL
 ```
+
+
+---
+
+# 6.13 Searchable PDF Quality Check【V4.3.2】
+
+2026报名通知“建议使用非图片 PDF 格式”。
+
+因此提交前检查：
+
+```text
+Text selectable/copyable:
+Search works:
+Equations render as vector/text where possible:
+No full-page scan unless unavoidable:
+PDF opens normally:
+Font embedding:
+PASS/RECOMMEND FIX
+```
+
+这是高优先级质量要求，但全国文件没有写成：
+> “图片PDF必然取消参赛资格”。
+
+不得夸大规则。
+
+---
+
+# 6.14 Page Number Gate【V4.3.2】
+
+全国规则：
+
+```text
+电子版第1页：摘要专用页
+摘要页页码：1
+位置：页脚中部
+后续连续编号
+```
+
+禁止使用：
+> 摘要无页码、正文第一页从1开始
+
+这一做法与2026全国格式规范冲突。
+
+默认不设置复杂页眉。
+
+---
+
+# 6.15 Support-Material List Placement【V4.3.2】
+
+附录开头优先放支撑材料文件清单。
+
+推荐：
+
+| 序号 | 文件名 | 相对路径 | 文件用途 | 对应问题 | 是否可运行 |
+|---|---|---|---|---|---|
+
+这样满足全国“附录应包括支撑材料文件列表”的要求，并方便专家核验。
+
+---
+
+# 6.16 Source-Code Completeness Gate【V4.3.2】
+
+论文附录：
+- 必须包含全部完整、可运行源程序。
+
+支撑材料：
+- 必须包含相同/对应的原始可运行源文件。
+
+最终检查：
+
+```text
+Every executed source file listed?:
+Full source in appendix?:
+Runnable source in support archive?:
+Version consistent?:
+Outputs reproduce paper?:
+PASS/FAIL
+```
+
+---
+
+# 6.17 AI Placement Audit【V4.3.2】
+
+正文30页中的顺序：
+
+```text
+...
+模型评价/结论
+AI 工具使用声明
+参考文献
+[正文结束]
+附录
+```
+
+AI 工具使用详情不需要复制为论文附录正文内容。
+
+支撑材料中：
+`AI 工具使用详情.pdf`
+
+附录支撑材料清单中：
+列出该文件。
+
+AI 工具本身无需自动列为参考文献。
+
+---
+
+# 6.18 Third-party AIGC/Plagiarism Upload Warning【V4.3.2】
+
+组委会问答不要求参赛队自行进行 AIGC 检测。
+
+竞赛期间：
+- 不把整篇论文上传未知第三方 AIGC 检测平台；
+- 不把赛题、代码、结果上传非官方查重平台；
+- 避免内容泄露与知识产权风险。
+
+真正需要做的是：
+- AI 使用真实披露；
+- 人工逐项核验；
+- 正确引用；
+- 不抄袭；
+- 不虚构。
+
+---
+
+# 6.19 National-vs-Regional Page Limit Gate【V4.3.2】
+
+全国：
+> 正文 <=30页；附录不限页。
+
+赛区若正式要求例如：
+> 附录只计前20页 / 总页数控制
+
+则将正式文件写入：
+`Regional Override Gate`
+
+没有赛区正式文件时：
+> 只作为 advisory，不得标记为全国硬规则。
+
+---
+
+# 6.20 Structured Deliverable Submission Gate【V4.3.2】
+
+若赛题另有结果附件：
+
+- [ ] 文件名/格式符合赛题；
+- [ ] 所有字段正确；
+- [ ] 所有硬约束通过；
+- [ ] 结果与论文完全一致；
+- [ ] 独立 Validator PASS；
+- [ ] 不包含身份信息；
+- [ ] 放入题目要求的正确上传位置。
+
+该 Gate 优先级等同于论文 PDF 正确性。
+
+
+---
+
+# 6.21 湖南赛区页码 Gate【V4.3.3】
+
+最终执行：
+
+```text
+摘要：不显示页码
+正文第一页：1
+正文/参考文献：连续
+附录：继续连续
+```
+
+LaTeX 示例逻辑：
+
+```latex
+% 摘要页
+\thispagestyle{empty}
+
+% 正文开始
+\clearpage
+\setcounter{page}{1}
+\pagestyle{plain}
+```
+
+页脚居中，默认不使用页眉。
+
+---
+
+# 6.22 LaTeX-native PDF Gate【V4.3.3】
+
+最终论文必须由 LaTeX 或等价原生排版系统直接生成文本型 PDF。
+
+默认禁止：
+- 扫描PDF；
+- 每页截图拼PDF；
+- 将整篇Word逐页转图片后再合并；
+- 任何导致全文文字不可搜索的输出链。
+
+检查：
+
+```text
+Searchable text:
+Selectable text:
+Embedded fonts:
+Vector equations:
+No full-page rasterization:
+References clickable/consistent if enabled:
+PASS/FAIL
+```
+
+FAIL → 不提交。
+
+---
+
+# 6.23 湖南赛区页数 Gate【V4.3.3】
+
+```text
+Abstract: 1 page
+Body + AI declaration + References: <=30 pages
+Appendix: <=20 pages
+Target total main PDF: <=51 pages
+```
+
+正文优先29–30页。
+
+如果超限：
+1. 删除重复论述；
+2. 表格压缩；
+3. 次要图移附录；
+4. 合并重复公式；
+5. 减少算法百科；
+6. 优化LaTeX浮动体；
+7. 精简代码冗余。
+
+禁止：
+- 删除关键验证；
+- 删除完整代码的一部分；
+- 缩小到不可读字号；
+- 通过截图压缩页面内容。
+
+---
+
+# 6.24 Appendix Full-Code Gate【V4.3.3】
+
+附录必须包含：
+- 最终数据预处理代码；
+- 模型构建代码；
+- 求解代码；
+- Validator；
+- 结果重算代码；
+- 必要绘图/实验代码。
+
+不包含：
+- 已弃用实验分支；
+- 无关调试脚本；
+- 缓存文件；
+- 重复实现。
+
+这保证“完整”是：
+> 完整重现最终论文结果所需的全部代码，
+而不是把项目中每一个废弃脚本都打印进去。
