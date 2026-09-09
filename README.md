@@ -1,59 +1,39 @@
-# 数学建模工作流 V4.5
-## Gold-Standard Convergence + Operations Research + Narrative & Visual Grammar
+# 数学建模工作流 V4.6
 
-V4.5 在 V4.4 的“结果质量认证 + 运筹优化专项”上，继续补齐所有题型共享的论文表达底座：
+一个可直接安装的 Agent Skill，面向数学建模竞赛的完整生命周期：题意与数据取证、模型设计、运筹优化/预测统计、求解质量认证、独立验证、优秀论文级叙事与出版级可视化、LaTeX 与提交审计。
 
-- Narrative Spine；
-- Question Progression；
-- Paragraph Logic；
-- Evidence-Calibrated Language；
-- Evidence Storyboard；
-- Figure Decision Tree；
-- Shared Semantic Palette；
-- Visual Audit；
-- Cross-Question Synthesis。
+## 安装为 Skill
 
-主流程仍然是：
+将整个目录放到：
 
-`M0 → M1 → M2 → (M3 ↔ M4) → M5 → M6 → M7`
+```text
+~/.agents/skills/mathematical-modeling-workflow/
+```
 
-**不新增 M8。**
+目录名必须保持 `mathematical-modeling-workflow`，以匹配 `SKILL.md` 的 `name`。
 
-## V4.5 的核心变化
+Codex/Claude Code 等支持 Agent Skills 的运行时可从 `SKILL.md` 自动判断何时加载。
 
-### 研究叙事
+## 使用
 
-`题意/数据 → Narrative Seeds → 模型递进 → 证据链 → Narrative Spine`
+新比赛最简单的指令：
 
-### 论文段落
+> 使用 mathematical-modeling-workflow skill 完成这次数学建模任务。先读全部题目和附件，执行 M0、M1；不要直接选算法。Modeling Eligibility Gate 通过后再进入建模与求解，并用独立 Validator 和 Solution Quality Contract 决定是否冻结结果。
 
-`Claim → Evidence → Reasoning → Implication`
+## V4.6 重点
 
-### 图表
+- 正式 Agent Skill 封装与 progressive disclosure；
+- 恢复 B1–B5 五类题型分支；
+- 保留 V4.5 Narrative Spine / Paragraph Logic / Evidence Storyboard；
+- 保留 V4.4 Bound / Gap / Solver Certificate / Solution Quality Contract；
+- 保留湖南赛区当前 LaTeX/PDF/页码/页数规则；
+- 新增 publication-grade plotting system；
+- 新增 scikit-learn diagnostic display adapters；
+- 新增 visual lint 与 Skill 结构验证；
+- 新增 pressure-test/eval 场景，防止后续版本退化。
 
-`Claim → Visual Question → Chart Type → Semantic Style → Visual Audit`
+## 可视化原则
 
-## 视觉默认
+“漂亮”不是高饱和颜色或复杂图形，而是：图型正确、语义清晰、配色统一、感知可靠、印刷可读、证据密度高、不会误导。
 
-- Final 深蓝 `#355F8A`；
-- Baseline 灰 `#737B86`；
-- Risk 鲑红 `#D46A65`；
-- 低饱和、浅灰细网格、弱化外框；
-- 类别≥6优先横向，≥12优先dot/heatmap；
-- 分组柱宽按系列数控制；
-- 不使用默认Matplotlib风格直接投稿；
-- 线图优先PDF/SVG，位图300–400dpi；
-- 图内部少放大标题，由LaTeX caption承担完整标题。
-
-统一绘图入口：`scripts/paper_plot_style.py`。
-
-## 运筹优化
-
-出现路径、调度、选址、资源配置、网络流、MILP/CP-SAT等结构时加载：
-`branches/B5_OPERATIONS_RESEARCH_OPTIMIZATION.md`
-
-B5 自动继承 V4.5 的叙事和视觉规则。
-
-## 湖南赛区
-
-继续执行已确认的 V4.3.3 定制口径：摘要无页码、正文从1开始、正文29–30页目标/≤30页、附录≤20页、完整最终代码、LaTeX原生可搜索PDF。
+最终图优先输出 PDF/SVG 矢量格式；位图至少 300–400 dpi。连续数值色图优先使用感知均匀的 `viridis` / `cividis`；只有存在真实中心（如 0、baseline 差值）时才使用 diverging colormap。

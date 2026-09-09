@@ -1,32 +1,21 @@
 # Changelog
 
-## V4.5 — 2026-09-07
+## V4.6 — 2026-09-09
 
-### Narrative Grammar
-- Narrative Seeds / Narrative Spine；
-- Question Progression Map；
-- Paragraph Logic：Claim→Evidence→Reasoning→Implication；
-- Cross-Question Synthesis；
-- Evidence-Calibrated Language；
-- Precision Contract；
-- Section Transition rules。
+### Skill packaging
+- Converted the workflow into an Agent Skills-compatible directory.
+- Rewrote `SKILL.md` for discovery and progressive disclosure.
+- Restored B1–B4 statistical/dynamic/counterfactual branches and B5 operations-research branch.
+- Added local Skill validator and pressure-test cases.
 
-### Visual Grammar
-- Visualization Eligibility Gate；
-- Figure Decision Tree；
-- Chart Rejection Rules；
-- Shared Semantic Palette；
-- grouped bar宽度规则；
-- multi-panel composition；
-- legend/annotation规范；
-- sequential vs diverging heatmap规则；
-- final-size字体/线宽；
-- PDF/SVG优先；
-- Visual Audit；
-- `scripts/paper_plot_style.py`。
+### Publication graphics
+- Rebuilt the plotting layer around a portable Matplotlib style sheet + Python helpers.
+- Added semantic color roles, perceptually appropriate colormap selection, chart-type rejection rules, final-size typography, constrained layout, vector export, and grayscale checks.
+- Added scikit-learn adapters for confusion matrices, ROC, precision-recall, calibration and regression prediction-error displays.
+- Added automated visual lint for missing labels, overloaded bars, tiny text, excessive categories, duplicate in-axes titles and low grayscale contrast.
+- Added a publication visual gallery and tests.
 
-### Integration
-- M1/M4/M5/M6整体融合，不新增M8；
-- B5运筹分支自动继承共享叙事和视觉规范；
-- 保留V4.4的Solution Quality/Bound/Gap/Solver Certificate；
-- 保留V4.3.3湖南赛区定制规则。
+### Preserved capabilities
+- V4.5 narrative and visual grammar.
+- V4.4 solution-quality certification and operations-research optimization.
+- Hunan 2026 submission profile.

@@ -1,23 +1,13 @@
-# OS
 .DS_Store
-Thumbs.db
-
-# Editors
-.vscode/
-.idea/
-
-# Python
 __pycache__/
-*.py[cod]
+.pytest_cache/
+*.pyc
+*.pyo
 .venv/
 venv/
-
-# Modeling run outputs
 runs/
 tmp/
 .cache/
-
-# Large generated artifacts
 *.aux
 *.log
 *.out

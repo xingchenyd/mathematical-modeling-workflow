@@ -1,20 +1,39 @@
 # CODEX_UPLOAD_INSTRUCTIONS.md
 
-请上传到 GitHub：
-- Account: `xingchenyd`
-- Repository: `数学建模工作流`
-- Branch: `main`
-- Commit: `release: V4.5 叙事与视觉语法增强版`
+## Goal
 
-若远端已有 V4.4：保留 Git 历史，用 V4.5 更新。
+Upload this package to GitHub and keep it installable as an Agent Skill.
 
-必须保留：
-- `M0`–`M7`；
-- `branches/B5_OPERATIONS_RESEARCH_OPTIMIZATION.md`；
-- `docs/PAPER_NARRATIVE_AND_LANGUAGE_V4.5.md`；
-- `docs/VISUAL_GRAMMAR_V4.5.md`；
-- `scripts/paper_plot_style.py`；
-- `templates/` 下 V4.5 新模板；
-- `docs/superpowers/specs/` 与 `docs/superpowers/plans/`。
+- GitHub account: `xingchenyd`
+- Repository name: `数学建模工作流`
+- Default branch: `main`
+- Suggested visibility: Public
+- Suggested commit: `release: V4.6 Skill化与出版级可视化版`
 
-不要把具体赛题、参赛论文、个人身份信息上传到该通用仓库。
+## Important
+
+The GitHub repository may keep the Chinese repository name. For Agent Skills installation, copy/clone the contents into a local folder named exactly:
+
+`mathematical-modeling-workflow`
+
+because the Agent Skills specification requires the directory name to match the `name` in `SKILL.md`.
+
+## Before push
+
+Run:
+
+```bash
+python scripts/validate_skill.py .
+pytest -q
+python scripts/build_visual_gallery.py
+python scripts/build_sklearn_gallery.py
+```
+
+All tests must pass.
+
+## Do not
+
+- flatten `references/`, `assets/`, `scripts/`, or `tests/`;
+- delete B1–B5 branches;
+- replace `SKILL.md` with a long combined manual;
+- upload current contest-specific data, answers, team identity, or private files.

@@ -1,0 +1,22 @@
+# Portable publication style; semantic colors are applied by paper_plot_style.py.
+figure.facecolor: white
+axes.facecolor: white
+axes.linewidth: 0.8
+axes.titlesize: 10
+axes.labelsize: 9
+axes.spines.top: False
+axes.spines.right: False
+axes.grid: False
+xtick.labelsize: 8
+ytick.labelsize: 8
+legend.fontsize: 8
+legend.frameon: False
+lines.linewidth: 1.6
+lines.markersize: 4.5
+grid.linewidth: 0.55
+grid.alpha: 0.55
+savefig.bbox: tight
+savefig.facecolor: white
+pdf.fonttype: 42
+ps.fonttype: 42
+axes.unicode_minus: False
